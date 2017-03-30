@@ -20,6 +20,9 @@ class Server(object):
     def __init__(self, addr=DEFAULT_ADDR, port=DEFAULT_PORT,
                  directory=DEFAULT_DIR):
         print "Serving %s on %s:%s." % (directory, addr, port)
+	self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #creacion del socket
+	self.s.bind((addr,port)) #asocio el socket a una direccion IP(addr) y un puerto(port)
+	self.s.listen(1) #puede conectarse solo un cliente
         # FALTA: Crear socket del servidor, configurarlo, asignarlo
         # a una dirección y puerto, etc.
 
