@@ -21,9 +21,12 @@ class Server(object):
                  directory=DEFAULT_DIR):
         print "Serving %s on %s:%s." % (directory, addr, port)
 	self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #creacion del socket
-	self.s.bind((addr,port)) #asocio el socket a una direccion IP(addr) y un puerto(port)
+	self.s.bind((addr,port)) #asocio el socket a la direccion IP(addr) y al puerto(port)
 	self.s.listen(1) #puede conectarse solo un cliente
-        # FALTA: Crear socket del servidor, configurarlo, asignarlo
+        self.s.buffer = '' #buffer que va a almacenar los datos que va recibiendo del cliente
+	self.s.client = None #variable que almacena al cliente del cual recibo el pedido
+	self.s.ip_client = None #variable que almacena la IP del cliente atendido
+	# FALTA: Crear socket del servidor, configurarlo, asignarlo
         # a una dirección y puerto, etc.
 
     def serve(self):
@@ -32,9 +35,30 @@ class Server(object):
         y se espera a que concluya antes de seguir.
         """
         while True:
-            pass
+		self.client, self.ip_client = self.s.accept() #acepto la conexion del cliente
+		self.buffer = "" #inicializo el buffer
+		while True #mientras el cliente este conectado...
+			self.recv_server()
+		
+			# Aqui creo, deberia en primer lugar parsear el pedido del cliente y
+			# si todo esta bien, ejecutar cada comando en el orden en que los
+			# envio el cliente :)
+
+
             # FALTA: Aceptar una conexión al server, crear una
             # Connection para la conexión y atenderla hasta que termine.
+
+
+
+    def recv_server(self):
+	""" Recibe los datos y los acumula en buffer """
+	data_recv = '' #variable que almacena el pedido del cliente
+	while not eol in data_recv
+		data_recv = data_recv + self.client.recv(1024) #voy recibiendo el pedido
+		if len(data_recv) = 0  #si no recibio nada, hace un break
+			break
+	self.buffer = self.buffer + data_recv #almacena en el buffer lo recibido hasta el momento
+
 
 
 def main():
