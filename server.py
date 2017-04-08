@@ -29,7 +29,7 @@ class Server(object):
 	# FALTA: Crear socket del servidor, configurarlo, asignarlo
         # a una dirección y puerto, etc.
 
-    def serve(self):
+    def server_connected(self):
         """
         Loop principal del servidor. Se acepta una conexión a la vez
         y se espera a que concluya antes de seguir.
@@ -38,8 +38,10 @@ class Server(object):
 		self.client, self.ip_client = self.s.accept() #acepto la conexion del cliente
 		self.buffer = "" #inicializo el buffer
 		while True #mientras el cliente este conectado...
-			self.recv_server()
-		
+			self.recv_server() #recibo el pedido y lo almaceno en el buffer
+			pedido = self.buffer #cargo en una variable el pedido
+			parseo_pedido(pedido) #parseo el pedido del cliente
+
 			# Aqui creo, deberia en primer lugar parsear el pedido del cliente y
 			# si todo esta bien, ejecutar cada comando en el orden en que los
 			# envio el cliente :)
@@ -58,6 +60,19 @@ class Server(object):
 		if len(data_recv) = 0  #si no recibio nada, hace un break
 			break
 	self.buffer = self.buffer + data_recv #almacena en el buffer lo recibido hasta el momento
+
+
+    def parseo_pedido(self, pedido):
+	if len(pedido) != 0 #si tengo un pedido para parsear...
+		commands_string = pedido.find(eol) #busco en que posicion comienza el eol(fin de linea)
+		comm_string_sin_eol = pedido[0:commands_string] #le saco el eol a la cadena de comandos
+		commands_ok = comm_string_sin_eol.find('\n') #busco en que posicion hay un \n (si hay)
+		if commands_ok = -1  # si no hay ningun \n en la cadena de comandos, parseo los mismos
+			div_commands = commands_ok.split() #parto la cadena en cada espacio en blanco
+			if div_commands != [] #si tengo comandos para tratar...
+				cmd := div_commands[0]
+				if cmd = "get_file_listing"
+					
 
 
 
